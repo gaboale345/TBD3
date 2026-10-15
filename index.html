@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio DDL y Diccionario de Datos PostgreSQL — DISCOR S.R.L.</title>
+  <link rel="stylesheet" href="./.agents/skills/web-presentations/resources/slides.css">
+</head>
+<body>
+
+  <!-- Fondo Ambiental con Orbes Luminosos -->
+  <div class="ambient-glow">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- Barra de Progreso Superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Viewport de la Presentación 16:9 con Auto-escalado -->
+  <main id="deck-viewport">
+    <div id="deck">
+
+      <!-- ===================================================================
+           DIAPOSITIVA 1: PORTADA & FICHA TÉCNICA EMPRESARIAL
+           =================================================================== -->
+      <section class="slide layout-title" data-slide="1" data-transition="slide">
+        <div class="slide-body" style="align-items: center;">
+          <div class="badge">
+            <span class="badge-dot" style="background-color: #3b82f6; box-shadow: 0 0 10px #3b82f6;"></span>
+            PostgreSQL 16+ / 18 &middot; Esquema comercial &middot; UTF-8
+          </div>
+          <h1 style="max-width: 1400px;">
+            Construcción de Objetos DDL y <br>
+            <span class="gradient-text">Diccionario de Datos</span>
+          </h1>
+          <p class="subtitle" style="max-width: 1150px;">
+            Caso Empresarial: Distribuidora Comercial Andina del Oriente S.R.L. (DISCOR).<br>
+            Arquitectura relacional 3FN, secuencias dedicadas, restricciones declarativas e indexación de alto rendimiento.
+          </p>
+
+          <div class="author-chip fragment">
+            <div class="author-avatar" style="background: linear-gradient(135deg, #336791 0%, #6366f1 100%); font-size: 24px;">
+              🐘
+            </div>
+            <div style="text-align: left;">
+              <strong style="color: var(--text-main); font-size: 20px;">DISCOR S.R.L. — Arquitectura de Datos</strong>
+              <div style="font-size: 16px; color: var(--text-muted); margin-top: 2px;">Importación, Almacenamiento Mayorista y Distribución &middot; PostgreSQL 16+</div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Laboratorio DDL &middot; PostgreSQL Empresarial</span>
+          <span>Diapositiva 01 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Dar la bienvenida a la presentación técnica. Destacar que este laboratorio aborda la migración y formalización de la estructura de base de datos para DISCOR S.R.L. en PostgreSQL 16+/18, usando un esquema dedicado 'comercial' codificado en UTF-8.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 2: PROBLEMÁTICA OPERATIVA VS ARQUITECTURA 3FN
+           =================================================================== -->
+      <section class="slide" data-slide="2" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">1. Justificación del Negocio</span>
+            <h2>Problemática Operativa vs. Solución Relacional 3FN</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="split-cols">
+            <!-- Problemas Previos -->
+            <div class="glass-card fragment" style="border-left: 6px solid #ef4444;">
+              <div class="card-icon" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); font-size: 32px;">⚠️</div>
+              <h3 style="color: #f87171; font-size: 30px;">Gestión Anterior en Hojas de Cálculo</h3>
+              <ul style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px; color: var(--text-muted); font-size: 23px; padding-left: 24px;">
+                <li><strong style="color: var(--text-main);">Quiebres de Inventario:</strong> Carencia de alertas automatizadas sobre umbrales de stock mínimo de seguridad.</li>
+                <li><strong style="color: var(--text-main);">Duplicidad de SKUs:</strong> Errores tipográficos y códigos alfanuméricos repetidos en catálogo.</li>
+                <li><strong style="color: var(--text-main);">Descontrol Crediticio:</strong> Ventas despachadas a clientes mayoristas excediendo límites de crédito autorizados.</li>
+              </ul>
+            </div>
+
+            <!-- Solución PostgreSQL -->
+            <div class="glass-card fragment" style="border-left: 6px solid #10b981;">
+              <div class="card-icon emerald" style="font-size: 32px;">🛡️</div>
+              <h3 style="color: #34d399; font-size: 30px;">Solución Relacional Normalizada</h3>
+              <ul style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px; color: var(--text-muted); font-size: 23px; padding-left: 24px;">
+                <li><strong style="color: var(--text-main);">Tercera Forma Normal (3FN):</strong> Erradicación total de redundancias mediante llaves primarias y foráneas.</li>
+                <li><strong style="color: var(--text-main);">Restricciones CHECK Nativas:</strong> Validación de precios, stocks no negativos y márgenes comerciales en el motor.</li>
+                <li><strong style="color: var(--text-main);">Trazabilidad Transaccional:</strong> Generación independiente de identificadores y numeración fiscal correlativa.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>DISCOR S.R.L. abastece a supermercados, minimarkets, farmacias y canal HORECA</span>
+          <span>Fundamentación &middot; Slide 02 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Enfatizar los tres dolores que justificaron el proyecto: quiebres de stock por falta de alertas, duplicidad en SKUs e inconsistencia en saldos de crédito. Explicar cómo PostgreSQL 3FN resuelve esto a nivel infraestructura.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 3: LAS 6 ENTIDADES DEL MODELO RELACIONAL
+           =================================================================== -->
+      <section class="slide" data-slide="3" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">2. Arquitectura de Entidades</span>
+            <h2>Modelo Físico: Las Seis Tablas del Esquema Comercial</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="cards-grid-3">
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px;">Maestro</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #a5b4fc; font-weight: 600;">PK: categoria_id</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.categorias</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Líneas de productos con código único estandarizado (ej. ABAR-01) y margen bruto mínimo exigido.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3); color: #67e8f9;">Maestro</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #67e8f9; font-weight: 600;">PK: proveedor_id</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.proveedores</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Padrón de fabricantes e importadores con NIT fiscal único, validación de correo corporativo y ciudad sede.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #6ee7b7;">Catálogo</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #6ee7b7; font-weight: 600;">PK: producto_id</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.productos</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Catálogo con SKU único, FK a categoría y proveedor, unidad logística, costos, precios y stock mínimo.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px; background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: #fcd34d;">Cartera</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #fcd34d; font-weight: 600;">PK: cliente_id</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.clientes</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Clientes clasificados en segmentos (SUPERMERCADO, MAYORISTA...), cupo de crédito y estado crediticio.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px; background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.3); color: #f472b6;">Transaccional</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #f472b6; font-weight: 600;">PK: pedido_id</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.pedidos</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Cabecera de órdenes de venta vinculada a clientes, número fiscal correlativo, canal de venta y totales.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span class="badge" style="font-size: 15px; padding: 4px 12px; background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3); color: #d8b4fe;">Detalle</span>
+                <span style="font-family: var(--font-mono); font-size: 16px; color: #d8b4fe; font-weight: 600;">PK: detalle_id (Identity)</span>
+              </div>
+              <h3 style="font-size: 27px;">comercial.detalle_pedidos</h3>
+              <p style="font-size: 20px; line-height: 1.5;">Líneas facturadas con FK a pedido (CASCADE) y producto (RESTRICT), cantidad, descuento (máx 50%) y subtotal.</p>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Relaciones 1:N aseguradas mediante llaves foráneas con reglas de actualización en cascada</span>
+          <span>Diccionario de Datos &middot; Slide 03 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Recorrer las 6 entidades mostrando cómo se dividen en 3 capas: Maestros (categorías y proveedores), Catálogo y Cartera (productos y clientes), y Transaccional (pedidos y detalle de pedidos).
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 4: CATÁLOGO DE SECUENCIAS INDEPENDIENTES
+           =================================================================== -->
+      <section class="slide" data-slide="4" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">3. Generadores Numéricos</span>
+            <h2>Secuencias Independientes y Vinculación Formal (OWNED BY)</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="split-cols">
+            <!-- Tabla de Secuencias -->
+            <div class="glass-card fragment" style="padding: 28px;">
+              <h3 style="margin-bottom: 18px; font-size: 26px; color: #a5b4fc;">Configuración de Generadores de Secuencia</h3>
+              <div style="display: flex; flex-direction: column; gap: 12px; font-size: 18px;">
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 8px;">
+                  <code style="font-size: 17px;">seq_categoria_id</code>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">START 10, INCREMENT 10, CACHE 10</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 8px;">
+                  <code style="font-size: 17px;">seq_proveedor_id</code>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">START 100, INCREMENT 1, CACHE 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 8px;">
+                  <code style="font-size: 17px;">seq_producto_id</code>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">START 1000, INCREMENT 1, CACHE 50</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 8px;">
+                  <code style="font-size: 17px;">seq_cliente_id</code>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">START 5000, INCREMENT 1, CACHE 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 8px;">
+                  <code style="font-size: 17px;">seq_pedido_id</code>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">START 1, INCREMENT 1, CACHE 50</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 14px; background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.3); border-radius: 8px;">
+                  <code style="color: #f472b6; font-weight: 700; font-size: 17px;">seq_nro_factura</code>
+                  <span style="color: #f472b6; font-weight: 700;">START 100001 &middot; NO CYCLE (Fiscal)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Principio OWNED BY -->
+            <div class="code-window fragment">
+              <div class="code-titlebar">
+                <div class="code-dots">
+                  <div class="code-dot dot-red"></div>
+                  <div class="code-dot dot-yellow"></div>
+                  <div class="code-dot dot-green"></div>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 15px; color: #94a3b8;">vinculacion_secuencias.sql</span>
+                <div></div>
+              </div>
+              <pre class="code-content" style="font-size: 21px; padding: 22px 26px;"><code><span class="code-comment">-- Sincronizar propiedad en catálogo interno</span>
+<span class="code-keyword">ALTER SEQUENCE</span> comercial.seq_categoria_id 
+  <span class="code-keyword">OWNED BY</span> comercial.categorias.categoria_id;
+
+<span class="code-keyword">ALTER SEQUENCE</span> comercial.seq_producto_id 
+  <span class="code-keyword">OWNED BY</span> comercial.productos.producto_id;
+
+<span class="code-comment">-- Secuencia fiscal vinculada a pedidos</span>
+<span class="code-keyword">ALTER SEQUENCE</span> comercial.seq_nro_factura 
+  <span class="code-keyword">OWNED BY</span> comercial.pedidos.nro_factura;</code></pre>
+              <div style="padding: 18px 26px; background: rgba(99, 102, 241, 0.08); border-top: 1px solid rgba(255,255,255,0.08); font-size: 18px; color: var(--text-muted); line-height: 1.5;">
+                🎯 <strong>Garantía:</strong> Si la tabla o columna se elimina con <code>DROP</code>, la secuencia asociada se mantiene sincronizada sin dejar objetos huérfanos.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Uso de CACHE en memoria para optimizar inserciones masivas en concurrencia alta</span>
+          <span>Secuencias DDL &middot; Slide 04 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Explicar la diferencia entre la secuencia técnica (ID del pedido) y la secuencia fiscal (nro_factura iniciando en 100001 con NO CYCLE). Detallar la cláusula OWNED BY para garantizar gobierno del catálogo de datos.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 5: REGLAS DE NEGOCIO Y RESTRICCIONES CHECK
+           =================================================================== -->
+      <section class="slide" data-slide="5" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">4. Blindaje del Dominio</span>
+            <h2>Restricciones Declarativas (CHECK & UNIQUE)</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="cards-grid-4">
+            <div class="glass-card fragment">
+              <div class="card-icon" style="font-size: 32px;">💰</div>
+              <h3 style="font-size: 24px;">Control de Precios</h3>
+              <code style="font-size: 15px; color: #67e8f9; background: rgba(6,182,212,0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600;">ck_productos_precios</code>
+              <p style="font-size: 19px; margin-top: 10px; line-height: 1.5;">
+                <code>costo_unitario > 0</code><br>
+                <code>precio_venta >= costo_unitario</code>
+              </p>
+              <span style="font-size: 16px; color: var(--text-subtle);">Evita vender a pérdida o con costo cero.</span>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon emerald" style="font-size: 32px;">📦</div>
+              <h3 style="font-size: 24px;">Stock No Negativo</h3>
+              <code style="font-size: 15px; color: #6ee7b7; background: rgba(16,185,129,0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600;">ck_productos_stock</code>
+              <p style="font-size: 19px; margin-top: 10px; line-height: 1.5;">
+                <code>stock_actual >= 0</code><br>
+                <code>stock_minimo >= 0</code>
+              </p>
+              <span style="font-size: 16px; color: var(--text-subtle);">Blindaje estricto de existencias físicas.</span>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon pink" style="font-size: 32px;">👥</div>
+              <h3 style="font-size: 24px;">Segmentos y Crédito</h3>
+              <code style="font-size: 15px; color: #f472b6; background: rgba(236,72,153,0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600;">ck_clientes_segmento</code>
+              <p style="font-size: 18px; margin-top: 10px; line-height: 1.5;">
+                <code>SUPERMERCADO</code>, <code>MAYORISTA</code>, <code>MINIMARKET</code>, <code>HORECA</code>.<br>
+                <code>limite_credito >= 0</code>
+              </p>
+              <span style="font-size: 16px; color: var(--text-subtle);">Gobernanza comercial por plaza.</span>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon" style="background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.3); font-size: 32px;">🧾</div>
+              <h3 style="font-size: 24px;">Ecuación Contable</h3>
+              <code style="font-size: 15px; color: #fcd34d; background: rgba(245,158,11,0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600;">ck_pedidos_totales</code>
+              <p style="font-size: 18px; margin-top: 10px; line-height: 1.5;">
+                <code>total_neto = total_bruto - total_descuento</code><br>
+                Descuento máx. 50%.
+              </p>
+              <span style="font-size: 16px; color: var(--text-subtle);">Consistencia matemática exigible.</span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Las reglas de negocio se ejecutan en el kernel de PostgreSQL sin depender exclusivamente del frontend</span>
+          <span>Integridad Declarativa &middot; Slide 05 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Enfatizar la importancia de llevar la validación al nivel de la base de datos (in-engine). Ni un solo registro con precio menor al costo o con stock negativo puede ser insertado, sin importar qué aplicación ejecute el INSERT.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 6: CONSTRUCCIÓN DDL TRANSACCIONAL
+           =================================================================== -->
+      <section class="slide" data-slide="6" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">5. Implementación DDL</span>
+            <h2>Script DDL: Integridad Referencial y Claves de Identidad</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="split-cols">
+            <div>
+              <h3 style="font-size: 32px; margin-bottom: 18px;">Políticas Referenciales Avanzadas</h3>
+              <p style="margin-bottom: 22px; font-size: 22px; line-height: 1.55;">
+                El diseño implementa políticas diferenciales de borrado y actualización para garantizar la integridad histórica del negocio:
+              </p>
+              <div class="glass-card fragment" style="margin-bottom: 18px;">
+                <strong style="color: #6ee7b7; font-size: 21px;">🔒 ON DELETE RESTRICT (Maestros)</strong>
+                <p style="font-size: 19px; margin-top: 6px;">
+                  Impide eliminar categorías, proveedores o clientes si tienen productos o pedidos históricos relacionados.
+                </p>
+              </div>
+              <div class="glass-card fragment">
+                <strong style="color: #f472b6; font-size: 21px;">⚡ ON DELETE CASCADE (Detalles)</strong>
+                <p style="font-size: 19px; margin-top: 6px;">
+                  La eliminación de un pedido borra automáticamente sus líneas de detalle asociadas, evitando registros fantasma.
+                </p>
+              </div>
+            </div>
+
+            <!-- Ventana de Código DDL -->
+            <div class="code-window fragment">
+              <div class="code-titlebar">
+                <div class="code-dots">
+                  <div class="code-dot dot-red"></div>
+                  <div class="code-dot dot-yellow"></div>
+                  <div class="code-dot dot-green"></div>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 15px; color: #94a3b8;">02_creacion_tablas_ddl.sql</span>
+                <div></div>
+              </div>
+              <pre class="code-content" style="font-size: 21px; line-height: 1.6; padding: 22px 26px;"><code><span class="code-comment">-- Detalle Transaccional de Pedidos</span>
+<span class="code-keyword">CREATE TABLE</span> comercial.detalle_pedidos (
+  detalle_id <span class="code-fn">BIGINT GENERATED ALWAYS AS IDENTITY</span> 
+             <span class="code-keyword">PRIMARY KEY</span>,
+  pedido_id   <span class="code-fn">INTEGER NOT NULL</span>,
+  producto_id <span class="code-fn">INTEGER NOT NULL</span>,
+  cantidad    <span class="code-fn">INTEGER NOT NULL CHECK</span> (cantidad > 0),
+  precio_aplicado <span class="code-fn">NUMERIC(12,2) NOT NULL</span>,
+  subtotal_linea  <span class="code-fn">NUMERIC(14,2) NOT NULL</span>,
+  <span class="code-keyword">CONSTRAINT</span> uq_detalle_pedido_prod 
+             <span class="code-keyword">UNIQUE</span> (pedido_id, producto_id),
+  <span class="code-keyword">CONSTRAINT</span> fk_detalle_pedido 
+             <span class="code-keyword">FOREIGN KEY</span> (pedido_id) 
+             <span class="code-keyword">REFERENCES</span> comercial.pedidos 
+             <span class="code-keyword">ON UPDATE CASCADE ON DELETE CASCADE</span>
+);</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Uso del estándar SQL ANSI: GENERATED ALWAYS AS IDENTITY</span>
+          <span>Construcción DDL &middot; Slide 06 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Destacar la restricción UNIQUE(pedido_id, producto_id) para evitar que el mismo producto se duplique en dos renglones de la misma factura, obligando a consolidar cantidades.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 7: ESTRATEGIA DE ÍNDICES DE ALTO RENDIMIENTO
+           =================================================================== -->
+      <section class="slide" data-slide="7" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">6. Optimización del Motor</span>
+            <h2>Estrategia de Indexación: B-Tree Compuestos y Parciales</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="split-cols">
+            <!-- Fundamento de Índices -->
+            <div>
+              <p style="font-size: 23px; line-height: 1.6; margin-bottom: 24px;">
+                PostgreSQL indexa automáticamente las restricciones <code style="color: #a5b4fc;">PRIMARY KEY</code> y <code style="color: #a5b4fc;">UNIQUE</code>, pero <strong>NO indexa de forma automática las Foreign Keys</strong>. Se diseñaron índices secundarios orientados a los patrones de consulta de alta frecuencia:
+              </p>
+
+              <div class="glass-card fragment" style="margin-bottom: 18px;">
+                <h4 style="color: #67e8f9; font-size: 22px; margin-bottom: 6px;">Filtros Cruzados y Kardex</h4>
+                <p style="font-size: 19px;">
+                  <code>idx_productos_cat_prov</code> y <code>idx_detalle_producto</code> aceleran consultas de compras por proveedor y rotación de inventarios.
+                </p>
+              </div>
+
+              <div class="glass-card fragment">
+                <h4 style="color: #f472b6; font-size: 22px; margin-bottom: 6px;">Historial y Estados de Cuenta</h4>
+                <p style="font-size: 19px;">
+                  <code>idx_pedidos_cliente_fecha</code> con ordenamiento <code>DESC</code> optimiza la consulta de últimos pedidos sin requerir sort en disco.
+                </p>
+              </div>
+            </div>
+
+            <!-- Índice Parcial Destacado -->
+            <div class="glass-card fragment" style="border: 2px solid #6366f1; background: rgba(99, 102, 241, 0.08); padding: 34px;">
+              <span class="badge" style="background: rgba(99, 102, 241, 0.25); border-color: #6366f1; color: #ffffff; font-size: 17px; padding: 6px 16px;">⭐ Índice Parcial Especializado</span>
+              <h3 style="font-size: 28px; margin-top: 14px;">Monitoreo Inmediato de Quiebres de Stock</h3>
+              
+              <div class="code-window" style="margin-top: 16px;">
+                <pre class="code-content" style="font-size: 19px; padding: 18px 22px;"><code><span class="code-keyword">CREATE INDEX</span> idx_productos_bajo_stock
+  <span class="code-keyword">ON</span> comercial.productos (stock_actual, stock_minimo)
+  <span class="code-keyword">WHERE</span> activo = <span class="code-fn">TRUE</span>;</code></pre>
+              </div>
+
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px; font-size: 19px; color: var(--text-muted); padding-left: 22px;">
+                <li>Indexa <strong>únicamente</strong> artículos activos en catálogo.</li>
+                <li>Reduce drásticamente el tamaño del índice en disco (menor I/O).</li>
+                <li>Permite que las alertas de reposición a almacén respondan en &lt; 2 milisegundos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Plan de ejecución verificado con EXPLAIN ANALYZE en PostgreSQL</span>
+          <span>Rendimiento &middot; Slide 07 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Resaltar que un índice parcial con WHERE activo = TRUE consume significativamente menos memoria RAM del buffer cache y es mucho más rápido de recorrer que un índice completo sobre toda la tabla.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 8: EVOLUCIÓN DEL ESQUEMA MEDIANTE ALTER TABLE
+           =================================================================== -->
+      <section class="slide" data-slide="8" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">7. Ciclo de Vida y Evolución</span>
+            <h2>Evolución Transaccional del Esquema (ALTER TABLE)</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="cards-grid-3">
+            <div class="glass-card fragment">
+              <div class="card-icon cyan" style="font-size: 32px;">🚚</div>
+              <h3 style="font-size: 28px;">Canales Comerciales</h3>
+              <p style="font-size: 20px; line-height: 1.5;">
+                Incorporación de la columna <code>canal_venta</code> con validación restringida:
+              </p>
+              <div style="background: rgba(255,255,255,0.04); padding: 12px 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 17px; color: #a5b4fc; margin-top: 10px; line-height: 1.5;">
+                PREVENTA_MOVIL<br>
+                MOSTRADOR<br>
+                B2B_WEB &middot; TELEVENTA
+              </div>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon pink" style="font-size: 32px;">📅</div>
+              <h3 style="font-size: 28px;">Consistencia Temporal</h3>
+              <p style="font-size: 20px; line-height: 1.5;">
+                Restricción <code>ck_pedidos_fechas</code> para evitar anomalías cronológicas:
+              </p>
+              <div style="background: rgba(255,255,255,0.04); padding: 12px 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 17px; color: #f472b6; margin-top: 10px; line-height: 1.5;">
+                fecha_entrega IS NULL<br>
+                OR fecha_entrega >= <br>
+                CAST(fecha_emision AS DATE)
+              </div>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon emerald" style="font-size: 32px;">⏱️</div>
+              <h3 style="font-size: 28px;">Auditoría de Actualización</h3>
+              <p style="font-size: 20px; line-height: 1.5;">
+                Atributo para trazabilidad de cambios en precios o fichas técnicas:
+              </p>
+              <div style="background: rgba(255,255,255,0.04); padding: 12px 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 17px; color: #6ee7b7; margin-top: 10px; line-height: 1.5;">
+                ultima_actualizacion<br>
+                TIMESTAMPTZ NOT NULL<br>
+                DEFAULT CURRENT_TIMESTAMP
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Modificaciones DDL ejecutadas sin interrupción de servicio (Online Schema Evolution)</span>
+          <span>Evolución &middot; Slide 08 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Demostrar cómo el modelo de DISCOR fue capaz de incorporar nuevos requerimientos de negocio (venta móvil de preventistas y tienda web B2B) mediante ALTER TABLE sin recrear la base de datos.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 9: AUDITORÍA CON EL DICCIONARIO DE DATOS
+           =================================================================== -->
+      <section class="slide" data-slide="9" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">8. Metadatos del Sistema</span>
+            <h2>Auditoría del Diccionario de Datos: Estándar vs. Catálogo Nativo</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="split-cols">
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
+                <span class="card-icon" style="font-size: 26px;">🌐</span>
+                <h3 style="font-size: 26px;">Capa Estándar ANSI SQL</h3>
+              </div>
+              <code style="color: #67e8f9; font-size: 18px; font-weight: 600;">information_schema</code>
+              <p style="margin-top: 14px; font-size: 20px; line-height: 1.5;">
+                Vistas normalizadas y portables entre diferentes motores relacionales:
+              </p>
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px; font-size: 19px; color: var(--text-muted); padding-left: 22px;">
+                <li><code>tables</code>: Tipos de objetos y esquemas.</li>
+                <li><code>columns</code>: Nombres, posiciones ordinales y tipos de datos.</li>
+                <li><code>table_constraints</code>: Llaves primarias, foráneas y restricciones CHECK.</li>
+              </ul>
+            </div>
+
+            <div class="glass-card fragment">
+              <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
+                <span class="card-icon pink" style="font-size: 26px;">⚙️</span>
+                <h3 style="font-size: 26px;">Capa Nativa del Motor</h3>
+              </div>
+              <code style="color: #f472b6; font-size: 18px; font-weight: 600;">pg_catalog</code>
+              <p style="margin-top: 14px; font-size: 20px; line-height: 1.5;">
+                Estructura interna de alto rendimiento enriquecida mediante <code>COMMENT ON</code>:
+              </p>
+              <ul style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px; font-size: 19px; color: var(--text-muted); padding-left: 22px;">
+                <li><code>pg_class & pg_attribute</code>: Tablas y atributos internos.</li>
+                <li><code>obj_description() & col_description()</code>: Documentación descriptiva viva.</li>
+                <li><code>pg_sequences & pg_indexes</code>: Métricas operativas de secuencias e índices.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>La documentación técnica reside directamente dentro del catálogo de la base de datos</span>
+          <span>Diccionario de Datos &middot; Slide 09 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Explicar cómo la sentencia COMMENT ON permite almacenar la documentación funcional en la misma base de datos, accesible mediante vistas del diccionario y herramientas como DBeaver o pgAdmin.
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           DIAPOSITIVA 10: VISTA CONSOLIDADA Y CONCLUSIONES
+           =================================================================== -->
+      <section class="slide layout-title" data-slide="10" data-transition="slide">
+        <div class="slide-body" style="align-items: center;">
+          <div class="badge">
+            <span class="badge-dot" style="background-color: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+            Entregable Final Consolidado
+          </div>
+          <h1 style="font-size: 70px;">
+            Vista <span class="gradient-text">vw_diccionario_datos</span>
+          </h1>
+          <p class="subtitle" style="max-width: 1100px; font-size: 30px;">
+            Objeto SQL centralizado que agrupa tablas, orden de columnas, tipos nativos de PostgreSQL, nulabilidad, clasificación de llaves (PK, FK, UNIQUE con <code>STRING_AGG</code>) y glosario documental.
+          </p>
+
+          <div class="cards-grid-3 fragment" style="max-width: 1200px; text-align: left; margin-top: 10px;">
+            <div class="glass-card" style="padding: 26px;">
+              <strong style="color: #6ee7b7; font-size: 21px;">✅ Integridad Garantizada</strong>
+              <p style="font-size: 18px; margin-top: 8px; line-height: 1.5;">Cero inconsistencias crediticias y blindaje de márgenes comerciales mínimos.</p>
+            </div>
+            <div class="glass-card" style="padding: 26px;">
+              <strong style="color: #67e8f9; font-size: 21px;">⚡ Máximo Rendimiento</strong>
+              <p style="font-size: 18px; margin-top: 8px; line-height: 1.5;">Alertas de quiebre de stock en &lt; 2ms gracias a índices parciales especializados.</p>
+            </div>
+            <div class="glass-card" style="padding: 26px;">
+              <strong style="color: #f472b6; font-size: 21px;">📖 Gobernanza Viva</strong>
+              <p style="font-size: 18px; margin-top: 8px; line-height: 1.5;">Diccionario de datos auditable en tiempo real por el equipo de TI y analítica.</p>
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div style="display: flex; gap: 18px; margin-top: 24px;" class="fragment">
+            <button class="author-chip" style="cursor: pointer; background: var(--gradient-brand); border: none; padding: 14px 30px; font-size: 18px; font-weight: 600; color: #ffffff;" onclick="window.presentation.toggleTheme()">
+              🌓 Alternar Modo Claro / Oscuro (T)
+            </button>
+            <button class="author-chip" style="cursor: pointer; padding: 14px 30px; font-size: 18px; font-weight: 600; color: var(--text-main);" onclick="window.print()">
+              🖨️ Exportar a PDF (Ctrl + P)
+            </button>
+            <button class="author-chip" style="cursor: pointer; padding: 14px 30px; font-size: 18px; font-weight: 600; color: var(--text-main);" onclick="window.presentation.toggleSorter()">
+              ⊞ Ver las 10 Diapositivas (O)
+            </button>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Caso de Éxito DISCOR S.R.L. &middot; Implementación PostgreSQL 16+ Finalizada</span>
+          <span>Conclusiones &middot; Slide 10 / 10</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          <strong>Notas del Orador:</strong><br>
+          Concluir la sesión repasando los 3 pilares logrados: integridad total, alta velocidad con indexación inteligente y gobernanza del diccionario de datos. Invitar a la audiencia a preguntas y mostrar el cambio de tema claro/oscuro.
+        </aside>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Controles Flotantes Inferiores -->
+  <nav id="nav-controls" aria-label="Controles de navegación">
+    <div id="slide-counter-badge">01 / 10</div>
+    <button id="btn-prev" class="btn-ctrl" title="Anterior (←)">←</button>
+    <button id="btn-next" class="btn-ctrl" title="Siguiente (→)">→</button>
+    <button id="btn-theme" class="btn-ctrl" title="Modo Claro / Oscuro (T)">☀️</button>
+    <button id="btn-sorter" class="btn-ctrl" title="Organizador de Diapositivas (O)">⊞</button>
+    <button id="btn-notes" class="btn-ctrl" title="Notas del Presentador (N)">✎</button>
+    <button id="btn-fullscreen" class="btn-ctrl" title="Pantalla Completa (F)">⛶</button>
+    <button id="btn-help" class="btn-ctrl" title="Atajos de Teclado (?)">?</button>
+  </nav>
+
+  <!-- Organizador de Diapositivas (Slide Sorter) -->
+  <aside id="slide-sorter">
+    <div class="sorter-header">
+      <h2>Organizador de Diapositivas (DISCOR S.R.L.)</h2>
+      <button id="btn-close-sorter" class="btn-ctrl">✕</button>
+    </div>
+    <div class="sorter-grid"></div>
+  </aside>
+
+  <!-- Panel Desplegable de Notas del Presentador -->
+  <aside id="speaker-notes-drawer">
+    <div class="notes-header">
+      <span>Notas del Presentador &middot; Guía de Exposición</span>
+      <button id="btn-close-notes" class="btn-ctrl" style="width: 32px; height: 32px; font-size: 14px;">✕</button>
+    </div>
+    <div id="notes-content"></div>
+  </aside>
+
+  <!-- Modal de Atajos de Teclado -->
+  <div id="help-modal">
+    <div class="help-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3 style="margin: 0; font-size: 26px;">Atajos de Teclado</h3>
+        <button id="btn-close-help" class="btn-ctrl" style="width: 32px; height: 32px; font-size: 14px;">✕</button>
+      </div>
+
+      <div class="shortcut-row">
+        <span>Siguiente paso / diapositiva</span>
+        <span class="shortcut-key">→ / Espacio / AvPág</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Paso anterior / diapositiva</span>
+        <span class="shortcut-key">← / RePág</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Modo Oscuro / Modo Claro</span>
+        <span class="shortcut-key">T</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Organizador en Cuadrícula</span>
+        <span class="shortcut-key">O</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Notas del Presentador</span>
+        <span class="shortcut-key">N</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Pantalla Completa</span>
+        <span class="shortcut-key">F</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Primera / Última diapositiva</span>
+        <span class="shortcut-key">Inicio / Fin</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Cerrar paneles / modales</span>
+        <span class="shortcut-key">Escape</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="./.agents/skills/web-presentations/resources/slides.js"></script>
+</body>
+</html>

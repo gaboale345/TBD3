@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentación Web Interactiva</title>
+  <link rel="stylesheet" href="./slides.css">
+</head>
+<body>
+
+  <!-- Fondo Ambiental con Orbes Animados -->
+  <div class="ambient-glow">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- Barra de Progreso Superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor 16:9 con Auto-escalado -->
+  <main id="deck-viewport">
+    <div id="deck">
+
+      <!-- ==========================================
+           SLIDE 1: PORTADA PRINCIPAL (Hero Title)
+           ========================================== -->
+      <section class="slide layout-title" data-slide="1" data-transition="slide">
+        <div class="slide-body" style="align-items: center;">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Presentación Interactiva
+          </div>
+          <h1>El Futuro de las <span class="gradient-text">Presentaciones</span></h1>
+          <p class="subtitle">
+            Crea experiencias visuales memorables construidas enteramente con tecnologías web abiertas: HTML5, CSS3 y JavaScript.
+          </p>
+          <div class="author-chip">
+            <div class="author-avatar">AP</div>
+            <div>
+              <strong style="color: #f8fafc; font-size: 16px;">Antigravity Presenter</strong>
+              <div style="font-size: 13px; color: #94a3b8;">Edición 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes">
+          Bienvenida al público y presentación de los objetivos clave de la sesión.
+        </aside>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 2: TARJETAS CON ANIMACIONES POR PASOS
+           ========================================== -->
+      <section class="slide" data-slide="2" data-transition="slide">
+        <header class="slide-header">
+          <div class="slide-title-wrap">
+            <span class="badge">Pilares Clave</span>
+            <h2>Ventajas sobre el Software Tradicional</h2>
+          </div>
+        </header>
+
+        <div class="slide-body">
+          <div class="cards-grid-3">
+            <div class="glass-card fragment">
+              <div class="card-icon">⚡</div>
+              <h3>Rendimiento Nativo</h3>
+              <p>Carga instantánea en cualquier navegador moderno sin requerir plugins ni licencias costosas.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon cyan">✨</div>
+              <h3>Animaciones CSS3</h3>
+              <p>Transiciones aceleradas por hardware a 60 FPS con efectos de desenfoque y microinteracciones fluidas.</p>
+            </div>
+
+            <div class="glass-card fragment">
+              <div class="card-icon emerald">📱</div>
+              <h3>100% Responsivo</h3>
+              <p>Escalado vectorial automático 16:9 que se adapta tanto a monitores 4K como a proyectores y pantallas táctiles.</p>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Pulsa la barra espaciadora para avanzar los elementos</span>
+          <span>Web Presentations Engine</span>
+        </footer>
+
+        <aside class="speaker-notes">
+          Destacar que cada tarjeta aparece paso a paso gracias al sistema de fragments nativo.
+        </aside>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Controles Flotantes Inferiores -->
+  <nav id="nav-controls" aria-label="Controles de navegación">
+    <div id="slide-counter-badge">01 / 02</div>
+    <button id="btn-prev" class="btn-ctrl" title="Anterior (←)">←</button>
+    <button id="btn-next" class="btn-ctrl" title="Siguiente (→)">→</button>
+    <button id="btn-theme" class="btn-ctrl" title="Modo Claro / Oscuro (T)">☀️</button>
+    <button id="btn-sorter" class="btn-ctrl" title="Vista General (O)">⊞</button>
+    <button id="btn-notes" class="btn-ctrl" title="Notas del Presentador (N)">✎</button>
+    <button id="btn-fullscreen" class="btn-ctrl" title="Pantalla Completa (F)">⛶</button>
+    <button id="btn-help" class="btn-ctrl" title="Atajos de Teclado (?)">?</button>
+  </nav>
+
+  <!-- Organizador de Diapositivas (Slide Sorter) -->
+  <aside id="slide-sorter">
+    <div class="sorter-header">
+      <h2>Organizador de Diapositivas</h2>
+      <button id="btn-close-sorter" class="btn-ctrl">✕</button>
+    </div>
+    <div class="sorter-grid"></div>
+  </aside>
+
+  <!-- Panel de Notas del Presentador -->
+  <aside id="speaker-notes-drawer">
+    <div class="notes-header">
+      <span>Notas del Presentador</span>
+      <button id="btn-close-notes" class="btn-ctrl" style="width: 32px; height: 32px; font-size: 14px;">✕</button>
+    </div>
+    <div id="notes-content"></div>
+  </aside>
+
+  <!-- Modal de Atajos de Teclado -->
+  <div id="help-modal">
+    <div class="help-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3 style="margin: 0;">Atajos de Teclado</h3>
+        <button id="btn-close-help" class="btn-ctrl" style="width: 32px; height: 32px; font-size: 14px;">✕</button>
+      </div>
+
+      <div class="shortcut-row">
+        <span>Siguiente paso / diapositiva</span>
+        <span class="shortcut-key">→ / Espacio / AvPág</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Paso anterior / diapositiva</span>
+        <span class="shortcut-key">← / RePág</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Modo Oscuro / Claro</span>
+        <span class="shortcut-key">T</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Pantalla Completa</span>
+        <span class="shortcut-key">F</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Organizador / Cuadrícula</span>
+        <span class="shortcut-key">O</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Notas del Presentador</span>
+        <span class="shortcut-key">N</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Cerrar ventanas / menús</span>
+        <span class="shortcut-key">Escape</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="./slides.js"></script>
+</body>
+</html>
